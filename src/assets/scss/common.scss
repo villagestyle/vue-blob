@@ -1,0 +1,81 @@
+p,
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  font-size: 14px;
+}
+
+img {
+  content: normal !important;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: #f6f6f6;
+}
+
+$color-info: rgb(99, 193, 240);
+$color-danger: #ee0a24;
+$color-warn: rgb(244, 143, 63);
+$color-primary: #07c160;
+$color-default: #101010;
+$color-cyan: rgb(111, 210, 199);
+$color-primary-deep: #0d703d;
+$color-warn-deep: #d46a3c;
+$color-info-deep: #1065b9;
+$color-violet-deep: #660f99;
+$color-info-light: rgb(227, 243, 251);
+$color-disabled: rgb(102, 101, 101);
+$color-disabled-light: rgb(217, 217, 217);
+$color-warn-light: rgb(255, 246, 229);
+$color-cyan-light: rgb(239, 255, 253);
+$color-bg: #f8f8f8;
+
+.flex-box {
+  display: flex;
+}
+
+.title {
+  font-weight: 600;
+  color: black;
+  font-size: 15px;
+}
+
+main,
+header,
+footer {
+  background-color: #fff;
+}
+
+.state {
+  &.color-warn {
+    color: $color-warn;
+  }
+  &.color-info {
+    color: $color-info;
+  }
+  &.color-cyan {
+    color: $color-cyan;
+  }
+  &.color-danger {
+    color: $color-danger;
+  }
+  &.color-disabled {
+    color: $color-disabled;
+  }
+  &.color-primary {
+    color: $color-primary;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}

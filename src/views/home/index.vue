@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h3>{{ pageName }}</h3>
-    <input type="text" v-model:value="count">
   </div>
 </template>
 
@@ -26,7 +24,8 @@ export default defineComponent({
     });
     
     return {
-      pageName
+      pageName,
+      count
     }
   }
 })

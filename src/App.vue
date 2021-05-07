@@ -1,11 +1,15 @@
 <template>
-  <router-view></router-view>
+  <Layout></Layout>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import Layout from "./views/layout/index.vue";
 
 export default defineComponent({
+  components: {
+    Layout
+  },
   name: "App"
 });
 </script>
@@ -17,6 +21,5 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
