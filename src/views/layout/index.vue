@@ -14,8 +14,8 @@
         </el-col>
         <el-col :span="16"><Nav v-model:active="active"></Nav></el-col>
         <el-col :span="5">
-          <el-button size="small" type="primary">登录</el-button>
-          <el-button size="small" type="success">注册</el-button>
+          <el-button size="small" type="primary" @click="login">登录</el-button>
+          <el-button size="small" type="success" @click="regiester">注册</el-button>
         </el-col>
       </el-row>
     </div>
@@ -24,25 +24,44 @@
     <div class="weaper">
       <router-view></router-view>
     </div>
+    <LoginDialog ref="loginDialog"></LoginDialog>
+    <RegisterDialog ref="registerDialog"></RegisterDialog>
   </main>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { ElImage } from "element-plus";
 import Nav from "./_component/nav.vue";
+import LoginDialog from './_component/login.vue';
+import RegisterDialog from './_component/register.vue';
 
 export default defineComponent({
   components: {
-    [ElImage.name]: ElImage,
-    Nav
+    Nav,
+    LoginDialog,
+    RegisterDialog
   },
   setup() {
-    const active = ref('home');
+    const active = ref("home");
+    const loginDialog = ref<typeof LoginDialog>();
+    const registerDialog = ref<typeof RegisterDialog>();
+
+    const login = () => {
+      console.log('loginDialog', loginDialog.value);
+      loginDialog.value.show();
+    };
+
+    const regiester = () => {
+      registerDialog.value.show();
+    };
 
     return {
-      active
-    }
+      active,
+      login,
+      regiester,
+      loginDialog,
+      registerDialog
+    };
   }
 });
 </script>

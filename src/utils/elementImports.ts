@@ -1,9 +1,33 @@
 import type { App } from "vue";
-import { ElRow, ElCol, ElMessage, ElButton } from "element-plus";
+import {
+  ElRow,
+  ElCol,
+  ElMessage,
+  ElButton,
+  ElMessageBox,
+  ElDialog,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElRadio,
+  ElRadioGroup,
+  ElImage
+} from "element-plus";
 
-const Components = [ElRow, ElCol, ElButton];
+const Components = [
+  ElRow,
+  ElCol,
+  ElButton,
+  ElDialog,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElRadio,
+  ElRadioGroup,
+  ElImage
+];
 
-const Plugins = [ElMessage];
+const Plugins = [ElMessage, ElMessageBox];
 
 export const setupElementComponents = (app: App<Element>) => {
   Components.forEach(component => {
