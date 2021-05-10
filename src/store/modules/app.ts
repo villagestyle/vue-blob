@@ -29,11 +29,13 @@ export class AppStoreModule extends VuexModule {
   @Mutation
   commitSysNo(sysNo: string) {
     this.sysNo = sysNo;
+    localServer.set("sysNo", sysNo);
   }
 
   @Mutation
   commitSysInfo(sysInfo: SysInfo) {
     this.sysInfo = sysInfo;
+    localServer.set("sysInfo", sysInfo);
   }
 
   @Mutation

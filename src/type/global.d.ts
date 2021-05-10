@@ -21,3 +21,8 @@ export declare interface UserRegiestData {
   captcha: string; // 动态验证码
   token: string;
 }
+
+export declare interface UserLoginData {
+  username: string;
+  password: string;
+}

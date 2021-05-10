@@ -3,7 +3,7 @@
     <el-col :span="20">
       <el-tabs v-model="activeName" class="nav" :stretch="true" @tab-click="tabClick">
         <el-tab-pane label="首页" name="home"></el-tab-pane>
-        <el-tab-pane label="文章" name="articles"></el-tab-pane>
+        <!-- <el-tab-pane label="文章" name="articles"></el-tab-pane> -->
         <el-tab-pane label="归档" name="archive"></el-tab-pane>
         <el-tab-pane label="项目" name="project"></el-tab-pane>
         <el-tab-pane label="历程" name="timeline"></el-tab-pane>

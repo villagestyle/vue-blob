@@ -14,8 +14,24 @@
         </el-col>
         <el-col :span="16"><Nav v-model:active="active"></Nav></el-col>
         <el-col :span="5">
-          <el-button size="small" type="primary" @click="login">登录</el-button>
-          <el-button size="small" type="success" @click="regiester">注册</el-button>
+          <template v-if="!token">
+            <el-button size="small" type="primary" @click="login"
+              >登录</el-button
+            >
+            <el-button size="small" type="success" @click="regiester"
+              >注册</el-button
+            >
+          </template>
+          <template v-else>
+            <el-space wrap>
+              <router-link to="/editor">
+                <el-button size="small" type="primary">写文章</el-button>
+              </router-link>
+              <el-button size="small" type="danger" @click="logout">
+                登出
+              </el-button>
+            </el-space>
+          </template>
         </el-col>
       </el-row>
     </div>
@@ -32,8 +48,10 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import Nav from "./_component/nav.vue";
-import LoginDialog from './_component/login.vue';
-import RegisterDialog from './_component/register.vue';
+import LoginDialog from "./_component/login.vue";
+import RegisterDialog from "./_component/register.vue";
+import { UserStore } from "../../store/modules/user";
+import { ElMessageBox } from "element-plus";
 
 export default defineComponent({
   components: {
@@ -45,10 +63,25 @@ export default defineComponent({
     const active = ref("home");
     const loginDialog = ref<typeof LoginDialog>();
     const registerDialog = ref<typeof RegisterDialog>();
+    const token = ref(UserStore.getToken);
 
     const login = () => {
-      console.log('loginDialog', loginDialog.value);
+      console.log("loginDialog", loginDialog.value);
       loginDialog.value.show();
+    };
+
+    const logout = () => {
+      ElMessageBox.confirm(`确定登出吗？`, {
+        cancelButtonText: "取消",
+        confirmButtonText: "确定"
+      })
+        .then(() => {
+          UserStore.commitClearData();
+          location.reload();
+        })
+        .catch(() => {
+          console.log("嘿嘿");
+        });
     };
 
     const regiester = () => {
@@ -60,7 +93,9 @@ export default defineComponent({
       login,
       regiester,
       loginDialog,
-      registerDialog
+      registerDialog,
+      token,
+      logout
     };
   }
 });

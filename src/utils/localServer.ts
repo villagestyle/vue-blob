@@ -25,7 +25,24 @@ export const set = (key: string, data: any, token = "") => {
   return storeValue[key];
 };
 
+export const removeItem = (key: string, token = "") => {
+  const data = localStorage.getItem(SysConfig.localServerKey + token);
+  if (data) {
+    let storeValue;
+    try {
+      storeValue = JSON.parse(data);
+    } catch(err) {
+      storeValue = {};
+    }
+    const deleteData = storeValue[key];
+    delete storeValue[key];
+    localStorage.setItem(SysConfig.localServerKey + token, JSON.stringify(storeValue));
+    return { key: deleteData };
+  }
+}
+
 export default {
   set,
-  get
+  get,
+  removeItem
 };

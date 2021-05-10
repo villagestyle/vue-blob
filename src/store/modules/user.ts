@@ -28,15 +28,26 @@ import {
     @Mutation
     commitToken(token: string) {
       this.token = token;
+      localServer.set("token", token);
     }
   
     @Mutation
     commitUserInfo(userInfo: any) {
       this.userInfo = userInfo;
+      localServer.set("userInfo", userInfo);
     }
   
     @Mutation
     commitReloadData() {
+      this.token = localServer.get("token");
+      this.userInfo = localServer.get("userInfo");
+    }
+
+    @Mutation
+    commitClearData() {
+      console.log(`localServer.removeItem('token')`, localServer.removeItem('token'));
+      localServer.removeItem('token');
+      localServer.removeItem('userInfo');
       this.token = localServer.get("token");
       this.userInfo = localServer.get("userInfo");
     }

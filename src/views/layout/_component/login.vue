@@ -12,37 +12,20 @@
       label-width="100px"
       :rules="rules"
       status-icon
+      v-loading="loading"
+      ref="formInstance"
     >
       <el-form-item label="账号" prop="username">
         <el-input v-model="form.username"></el-input>
       </el-form-item>
-      <el-form-item label="姓名" prop="name">
-        <el-input v-model="form.name"></el-input>
-      </el-form-item>
-      <el-form-item label="手机号码" prop="cellphone">
-        <el-input v-model="form.cellphone"></el-input>
-      </el-form-item>
-      <el-form-item label="性别" prop="sex">
-        <el-radio-group v-model="form.sex">
-          <el-radio :label="1" :value="9">男</el-radio>
-          <el-radio :label="0">女</el-radio>
-          <el-radio :label="9">保密</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="动态验证码" prop="code">
-        <el-input v-model="form.code"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input v-model="form.email"></el-input>
-      </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="form.password"></el-input>
+        <el-input show-password v-model="form.password"></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="cancel">取 消</el-button>
-        <el-button type="primary" @click="submit"
+        <el-button :disabled="loading" @click="cancel">取 消</el-button>
+        <el-button :disabled="loading" type="primary" @click="submit"
           >确 定</el-button
         >
       </span>
@@ -52,8 +35,11 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
-import { UserRegiesterRules } from "./lib";
-import { UserRegiestData } from "../../../type/global";
+import { UserLoginRules } from "./lib";
+import { UserLoginData } from "../../../type/global";
+import { ElMessage } from "element-plus";
+import userAPI from "../../../api/user";
+import { UserStore } from '../../../store/modules/user';
 
 export default defineComponent({
   props: {
@@ -64,16 +50,13 @@ export default defineComponent({
   },
   setup() {
     const dialogVisible = ref(false);
-    const form = reactive<UserRegiestData>({
-      name: "",
+    const loading = ref(false);
+    const formInstance = ref();
+    const form = reactive<UserLoginData>({
       username: "",
-      cellphone: "",
-      email: "",
-      sex: 9,
-      password: "",
-      code: ''
+      password: ""
     });
-    const rules = UserRegiesterRules;
+    const rules = UserLoginRules;
 
     const show = () => {
       dialogVisible.value = true;
@@ -84,32 +67,54 @@ export default defineComponent({
     };
 
     const reset = () => {
-      form.name = '';
-      form.username = '';
-      form.cellphone = '';
-      form.email = '';
-      form.sex = 0;
-      form.password = '';
-      form.code = '';
-    }
+      form.username = "";
+      form.password = "";
+    };
 
     const cancel = () => {
       reset();
       close();
-    }
+    };
 
     const submit = () => {
-      console.log({...form});
-    }
+      loading.value = true;
+      formInstance.value.validate(valid => {
+        if (valid) {
+          userAPI
+            .login({ ...form })
+            .then(ret => {
+              ElMessage.success("登录成功");
+              loading.value = false;
+              cancel();
+              // TODO: 登录处理
+              UserStore.commitToken(ret.data.token);
+              UserStore.commitUserInfo(ret.data);
+              // 刷新页面
+              location.reload();
+            })
+            .catch(() => {
+              loading.value = false;
+            });
+        } else {
+          loading.value = false;
+        }
+      });
+    };
+
+    const methods = {
+      show,
+      close,
+      cancel,
+      submit
+    };
 
     return {
       dialogVisible,
-      show,
-      close,
       form,
       rules,
-      cancel,
-      submit
+      loading,
+      formInstance,
+      ...methods
     };
   }
 });

@@ -12,7 +12,11 @@ export const validatePWD = (rule: any, value: any, callback: Function) => {
   }
 };
 
-export const validateCellphone = (rule: any, value: any, callback: Function) => {
+export const validateCellphone = (
+  rule: any,
+  value: any,
+  callback: Function
+) => {
   if (value === "") {
     callback();
   } else {
@@ -37,12 +41,19 @@ export const UserRegiesterRules = {
     { required: true, message: "请输入手机号码", trigger: "blur" },
     { validator: validateCellphone, trigger: "blur" }
   ],
-  sex: [
-    { required: true, message: "请选择性别", trigger: "blur" },
-  ],
+  sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
   captcha: [
     { required: true, message: "请输入动态验证码", trigger: "blur" },
     { min: 5, max: 5, message: "请输入正确的动态验证码", trigger: "blur" }
   ],
-  password: [{ validator: validatePWD, trigger: "blur" }]
+  password: [{ validator: validatePWD, trigger: "blur" }],
+  email: [
+    { required: true, message: "请输入邮箱", trigger: "blur" },
+    { min: 5, max: 100, message: "请输入正确的邮箱", trigger: "blur" }
+  ]
+};
+
+export const UserLoginRules = {
+  username: [{ required: true, message: "请输入账号", trigger: "blur" }],
+  password: [{ required: true, message: "请输入密码", trigger: "blur" }]
 };

@@ -1,9 +1,14 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router, { setupRouter } from "./router";
-// import './type/global';
-import { AppStore } from "./store/modules/app";
 import "element-plus/packages/theme-chalk/src/base.scss";
+
+// import VueMarkdownEditor from '@kangc/v-md-editor'
+// import '@kangc/v-md-editor/lib/style/base-editor.css';
+// import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+// import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+// VueMarkdownEditor.use(vuepressTheme);
+
 import {
   setupElementComponents,
   setupElementPlugins
@@ -14,8 +19,7 @@ const app = createApp(App);
 setupRouter(app);
 setupElementComponents(app);
 setupElementPlugins(app);
-
-AppStore.commitSysNo("VITE_APP");
+// app.use(VueMarkdownEditor);
 
 router.isReady().then(() => {
   app.mount("#app");

@@ -66,6 +66,9 @@ footer {
   &.color-danger {
     color: $color-danger;
   }
+  &.bg-danger {
+    background-color: $color-danger;
+  }
   &.color-disabled {
     color: $color-disabled;
   }

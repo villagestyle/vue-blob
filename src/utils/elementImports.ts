@@ -11,7 +11,10 @@ import {
   ElInput,
   ElRadio,
   ElRadioGroup,
-  ElImage
+  ElImage,
+  ElLoading,
+  ElInfiniteScroll,
+  ElSpace
 } from "element-plus";
 
 const Components = [
@@ -24,10 +27,11 @@ const Components = [
   ElInput,
   ElRadio,
   ElRadioGroup,
-  ElImage
+  ElImage,
+  ElSpace
 ];
 
-const Plugins = [ElMessage, ElMessageBox];
+const Plugins = [ElMessage, ElMessageBox, ElLoading, ElInfiniteScroll];
 
 export const setupElementComponents = (app: App<Element>) => {
   Components.forEach(component => {

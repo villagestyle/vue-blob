@@ -13,6 +13,7 @@
       :rules="rules"
       status-icon
       ref="formInstance"
+      v-loading="loading"
     >
       <el-form-item label="账号" prop="username">
         <el-input v-model="form.username"></el-input>
@@ -33,7 +34,7 @@
       <div class="flex-box">
         <el-row :gutter="20">
           <el-col :span="18">
-            <el-form-item label="动态验证码" prop="code">
+            <el-form-item label="动态验证码" prop="captcha">
               <el-input v-model="form.captcha"></el-input>
             </el-form-item>
           </el-col>
@@ -59,8 +60,8 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="cancel">取 消</el-button>
-        <el-button type="primary" @click="submit">确 定</el-button>
+        <el-button :disabled="loading" @click="cancel">取 消</el-button>
+        <el-button :disabled="loading" type="primary" @click="submit">确 定</el-button>
       </span>
     </template>
   </el-dialog>
@@ -72,6 +73,7 @@ import { UserRegiesterRules } from "./lib";
 import { UserRegiestData } from "../../../type/global";
 import { uuid } from "../../../utils";
 import userAPI from "../../../api/user";
+import { ElMessage } from 'element-plus';
 
 export default defineComponent({
   props: {
@@ -85,6 +87,7 @@ export default defineComponent({
     const formInstance = ref();
     const picCodeUrl = ref("");
     const validateToken = ref(uuid());
+    const loading = ref(false);
     const form = reactive<UserRegiestData>({
       name: "",
       username: "",
@@ -123,25 +126,32 @@ export default defineComponent({
     };
 
     const submit = () => {
-      console.log({ ...form });
+      loading.value = true;
       formInstance.value.validate(valid => {
         if (valid) {
           userAPI
             .register({ ...form, token: validateToken.value })
             .then(ret => {
-              console.log(ret);
+              ElMessage.success('用户注册成功');
+              loading.value = false;
+              cancel();
             })
             .catch(() => {
+              loading.value = false;
               loadCaptcha();
             });
+        } else {
+          loading.value = false;
         }
       });
     };
 
     const loadCaptcha = () => {
+      loading.value = true;
       userAPI.captcha(validateToken.value).then(ret => {
         const blob = new Blob([ret.data], { type: "image/svg+xml" });
         picCodeUrl.value = URL.createObjectURL(blob);
+        loading.value = false;
       });
     };
 
@@ -155,7 +165,8 @@ export default defineComponent({
       cancel,
       submit,
       formInstance,
-      loadCaptcha
+      loadCaptcha,
+      loading
     };
   }
 });
