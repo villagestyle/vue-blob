@@ -1,7 +1,7 @@
 import axios, { Method } from "axios";
 import { UserStore } from "../store/modules/user";
-import { SysConfig } from "../utils/config";
 import { ElMessage } from "element-plus";
+import router from '../router';
 
 const instance = axios.create({
   // baseURL: "http://www.villagestyle.top:9002/interface"
@@ -23,9 +23,11 @@ instance.interceptors.response.use(
   data => data,
   err => {
     if (err.response && err.response.status === 401) {
-      //   store.dispatch(userActoons.toggle());
-      //   message.error("登录超时, 请重新登录");
-      //   store.dispatch(push(`/${Config.PACKAGE_NAME}`));
+      ElMessage.error("登录超时, 请重新登录");
+      UserStore.commitClearData();
+      router.push({
+        name: 'Root'
+      });
     } else if (err.response && err.response?.data) {
       if (err.response?.data instanceof ArrayBuffer) {
         ab2str(err.response?.data, (result: string) => {

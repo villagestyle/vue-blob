@@ -11,6 +11,8 @@ declare type TimeoutHandle = ReturnType<typeof setTimeout>;
 declare type Nullable<T> = T | null;
 
 declare type UserSex = 0 | 1 | 9;
+
+declare type UpdateAction = 0 | 1;
 export declare interface UserRegiestData {
   username: string;
   name: string;
@@ -25,4 +27,15 @@ export declare interface UserRegiestData {
 export declare interface UserLoginData {
   username: string;
   password: string;
+}
+
+export declare interface Article {
+  title: string;
+  content: string;
+  creTime: number;
+  creUserId: string;
+  id: string;
+  likesNum: number;
+  readNum: string;
+  action: UpdateAction;
 }

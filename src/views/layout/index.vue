@@ -104,6 +104,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 header {
   padding: 16px 16px 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  left: 0;
   .logo {
     width: 48px;
     height: 42px;
@@ -114,6 +118,9 @@ header {
   border-bottom: 1px solid $color-disabled-light;
 }
 
+main {
+  margin-top: 66px;
+}
 .weaper {
   max-width: 1200px;
   margin: 0 auto;

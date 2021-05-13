@@ -86,7 +86,6 @@ export default defineComponent({
               ElMessage.success("登录成功");
               loading.value = false;
               cancel();
-              // TODO: 登录处理
               UserStore.commitToken(ret.data.token);
               UserStore.commitUserInfo(ret.data);
               // 刷新页面
