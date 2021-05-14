@@ -18,7 +18,9 @@ export default {
         method: 'post',
         url: `article/page`,
         data
-    })
+    }),
+    /** 获取文章 */
+    info: (id: string) => axios.get(`article/${id}`)
 }
 
 export interface ArticleEdit {

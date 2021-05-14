@@ -60,7 +60,7 @@ export default defineComponent({
     RegisterDialog
   },
   setup() {
-    const active = ref("home");
+    const active = ref("Root");
     const loginDialog = ref<typeof LoginDialog>();
     const registerDialog = ref<typeof RegisterDialog>();
     const token = ref(UserStore.getToken);
@@ -108,6 +108,7 @@ header {
   top: 0;
   width: 100%;
   left: 0;
+  z-index: 9;
   .logo {
     width: 48px;
     height: 42px;

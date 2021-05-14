@@ -27,6 +27,16 @@ export const routers: RouteRecordRaw[] = [
         name: "Layout-Root",
         redirect: "/h/home"
       },
+      {
+        path: "articel/:id",
+        name: "ArticelDetail",
+        component: () => import("../../views/home/detail.vue"),
+      },
+      {
+        path: "usercenter",
+        name: "UserCenter",
+        component: () => import("../../views/usercenter/index.vue"),
+      },
     ]
   },
   {
