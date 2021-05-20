@@ -24,6 +24,16 @@ export declare interface UserRegiestData {
   token: string;
 }
 
+export declare interface UserInfo {
+  username: string;
+  cellphone: string;
+  email: string;
+  id: string;
+  name: string;
+  sex: Nullable<UserSex>,
+  token: string;
+}
+
 export declare interface UserLoginData {
   username: string;
   password: string;
@@ -32,7 +42,7 @@ export declare interface UserLoginData {
 export declare interface Article {
   title: string;
   content: string;
-  creTime: number;
+  creTime: number | string;
   creUserId: string;
   id: string;
   likesNum: number;

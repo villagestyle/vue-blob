@@ -1,6 +1,5 @@
 import {
   Module,
-  Action,
   Mutation,
   VuexModule,
   getModule

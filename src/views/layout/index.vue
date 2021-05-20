@@ -35,23 +35,19 @@
         </el-col>
       </el-row>
     </div>
-  </header>
-  <main>
-    <div class="weaper">
-      <router-view></router-view>
-    </div>
     <LoginDialog ref="loginDialog"></LoginDialog>
     <RegisterDialog ref="registerDialog"></RegisterDialog>
-  </main>
+  </header>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watchEffect } from "vue";
 import Nav from "./_component/nav.vue";
 import LoginDialog from "./_component/login.vue";
 import RegisterDialog from "./_component/register.vue";
 import { UserStore } from "../../store/modules/user";
 import { ElMessageBox } from "element-plus";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
@@ -59,11 +55,18 @@ export default defineComponent({
     LoginDialog,
     RegisterDialog
   },
-  setup() {
-    const active = ref("Root");
+  props: {
+    active: {
+      type: String,
+      default: 'Root'
+    }
+  },
+  setup(prop) {
+    const active = ref(prop.active);
     const loginDialog = ref<typeof LoginDialog>();
     const registerDialog = ref<typeof RegisterDialog>();
     const token = ref(UserStore.getToken);
+    const router = useRouter();
 
     const login = () => {
       console.log("loginDialog", loginDialog.value);
@@ -77,7 +80,9 @@ export default defineComponent({
       })
         .then(() => {
           UserStore.commitClearData();
-          location.reload();
+          router.push({
+            name: 'Root'
+          })
         })
         .catch(() => {
           console.log("嘿嘿");

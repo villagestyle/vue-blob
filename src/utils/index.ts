@@ -1,4 +1,5 @@
-import moment from 'moment'
+import moment from "moment";
+import { Indexable } from "../type/global";
 
 export const uuid = () => {
   const s: any[] = [];
@@ -12,4 +13,25 @@ export const uuid = () => {
 
   const uuid = moment(new Date()).format("YYYYMMDDHHmmss") + s.join("");
   return uuid;
+};
+
+// const TransformDateToFormatStr = (data: Indexable | Indexable[], key: string, format = 'YYYY-MM-DD') => {
+//   if (data instanceof Array) {
+
+//   } else {
+//     data[key] = moment(data[key]).format(format);
+//   }
+// }
+
+type BlendType<S, R> = S | R;
+
+export const TransformDateToFormatStr = <T extends Indexable, K extends keyof T>(
+  data: BlendType<T, T[]>,
+  key: K,
+  format = "YYYY-MM-DD"
+) => {
+  const result = (data instanceof Array ? data : [data]).map(item => {
+    return Object.assign(item, { [key]: moment(item[key]).format(format) })
+  });
+  return result;
 };

@@ -1,28 +1,36 @@
 <template>
   <div>
-    <Layout active="Root"></Layout>
+    <Layout active="articels"></Layout>
     <div v-infinite-scroll="loadData" class="container-with-layout">
       <div v-for="item in data.record" :key="item.id">
-        <Article :data="item"></Article>
+        <ArticleCom :operation="true" :data="item"></ArticleCom>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, onMounted, reactive, ref } from "vue";
+import { Article } from "../../type/global";
 import articleAPI from "../../api/article";
-import Article from "./_component/article.vue";
-import Layout from "../layout/index.vue";
+import { useRoute } from "vue-router";
+import ArticleCom from '../home/_component/article.vue';
+import Layout from '../layout/index.vue';
+import { UserStore } from '../../store/modules/user';
 
 export default defineComponent({
   components: {
-    Article,
+    ArticleCom,
     Layout
   },
   setup() {
+    const action = ref<0 | 1>(1);
     const pageNum = ref(1);
-    const data = reactive({
+    const route = useRoute();
+    const loginUserId = UserStore.getUserInfo.id;
+    const data = reactive<{
+      record: Article[];
+    }>({
       record: []
     });
 
@@ -31,7 +39,8 @@ export default defineComponent({
         .page({
           pageNum: pageNum.value,
           rows: 10,
-          action: 1
+          action: action.value,
+          creUserId: loginUserId
         })
         .then(ret => {
           pageNum.value++;
@@ -40,6 +49,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
+      action.value = route.name === "Articel" ? 1 : 0;
       loadData();
     });
 
@@ -51,5 +61,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

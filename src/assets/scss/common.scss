@@ -51,11 +51,17 @@ footer {
 }
 
 .state {
+  &.color-default {
+    color: #fff;
+  }
   &.color-warn {
     color: $color-warn;
   }
   &.color-info {
     color: $color-info;
+  }
+  &.bg-info {
+    background-color: $color-info;
   }
   &.color-cyan {
     color: $color-cyan;
@@ -74,10 +80,37 @@ footer {
   }
 }
 
+.container-with-layout {
+  padding: 16px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 66px;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-left {
+  text-align: left;
+}
+
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
   color: transparent;
+}
+
+.clear-border {
+  border: none;
+}
+
+.btn-hover {
+  opacity: 1;
+  transition: all .1s;
+  &:hover {
+    opacity: .8;
+  }
 }
 
 @import './hljs.scss';

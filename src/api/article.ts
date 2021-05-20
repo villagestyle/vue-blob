@@ -20,7 +20,9 @@ export default {
         data
     }),
     /** 获取文章 */
-    info: (id: string) => axios.get(`article/${id}`)
+    info: (id: string) => axios.get(`article/${id}`),
+    /** 删除文章 */
+    remove: (id: string) => axios.delete(`article/${id}`)
 }
 
 export interface ArticleEdit {

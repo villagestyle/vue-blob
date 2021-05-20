@@ -5,6 +5,7 @@ import {
     getModule
   } from "vuex-module-decorators";
   import store from "..";
+import { UserInfo } from "../../type/global";
   import localServer from "../../utils/localServer";
   
   @Module({
@@ -14,7 +15,7 @@ import {
     dynamic: true
   })
   export class UserStoreModule extends VuexModule {
-    private userInfo: any = localServer.get("userInfo");
+    private userInfo: UserInfo = localServer.get("userInfo");
     private token: string = localServer.get("token");
   
     get getUserInfo() {
@@ -32,7 +33,7 @@ import {
     }
   
     @Mutation
-    commitUserInfo(userInfo: any) {
+    commitUserInfo(userInfo: UserInfo) {
       this.userInfo = userInfo;
       localServer.set("userInfo", userInfo);
     }

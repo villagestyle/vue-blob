@@ -4,40 +4,28 @@ export const routers: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Root",
-    redirect: "/h",
+    redirect: "/home",
     meta: {
       title: "Root"
     }
   },
   {
-    path: "/h",
-    name: "Layout",
-    component: () => import("../../views/layout/index.vue"),
-    children: [
-      {
-        path: "home",
-        name: "Home",
-        component: () => import("../../views/home/index.vue"),
-        meta: {
-          title: "Home"
-        }
-      },
-      {
-        path: "",
-        name: "Layout-Root",
-        redirect: "/h/home"
-      },
-      {
-        path: "articel/:id",
-        name: "ArticelDetail",
-        component: () => import("../../views/home/detail.vue"),
-      },
-      {
-        path: "usercenter",
-        name: "UserCenter",
-        component: () => import("../../views/usercenter/index.vue"),
-      },
-    ]
+    path: "/home",
+    name: "Home",
+    component: () => import("../../views/home/index.vue"),
+    meta: {
+      title: "Home"
+    }
+  },
+  {
+    path: "/articel/:id",
+    name: "ArticelDetail",
+    component: () => import("../../views/home/detail.vue"),
+  },
+  {
+    path: "/usercenter",
+    name: "UserCenter",
+    component: () => import("../../views/usercenter/index.vue"),
   },
   {
     path: '/editor',
@@ -46,5 +34,20 @@ export const routers: RouteRecordRaw[] = [
     meta: {
       title: '写文章'
     }
+  },
+  {
+    path: '/editor/:id',
+    name: 'ArticelEdit',
+    component: () => import("../../views/editor/index.vue")
+  },
+  {
+    path: '/articel',
+    name: 'Articel',
+    component: () => import("../../views/usercenter/articles.vue")
+  },
+  {
+    path: '/draft',
+    name: 'Draft',
+    component: () => import("../../views/usercenter/articles.vue")
   }
 ];

@@ -6,6 +6,7 @@ import {
   watchEffect,
   computed
 } from "vue";
+import { Indexable } from '../type/global';
 
 export function useRuleFormItem<T extends Indexable>(
   props: T,
