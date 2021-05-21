@@ -23,7 +23,7 @@ export default defineComponent({
     };
 
     const [draw] = useThrottle(
-      (ev: MouseEvent, action: "move" | "draw" | "end") => {
+      (ev: MouseEvent, action: "move" | "draw") => {
         ev.preventDefault();
         const offset = {
           x: canvas.value.offsetLeft,
@@ -36,7 +36,6 @@ export default defineComponent({
         const oldPosition = checkPosition(oldEv.value, offset);
         ctx.moveTo(oldPosition.x, oldPosition.y);
         action === "draw" && ctx.lineTo(x, y);
-        console.log("chufa");
         ctx.stroke();
         oldEv.value = ev;
       },

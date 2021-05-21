@@ -47,7 +47,7 @@ import LoginDialog from "./_component/login.vue";
 import RegisterDialog from "./_component/register.vue";
 import { UserStore } from "../../store/modules/user";
 import { ElMessageBox } from "element-plus";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
@@ -58,7 +58,7 @@ export default defineComponent({
   props: {
     active: {
       type: String,
-      default: 'Root'
+      default: "Root"
     }
   },
   setup(prop) {
@@ -67,6 +67,7 @@ export default defineComponent({
     const registerDialog = ref<typeof RegisterDialog>();
     const token = ref(UserStore.getToken);
     const router = useRouter();
+    const route = useRoute();
 
     const login = () => {
       console.log("loginDialog", loginDialog.value);
@@ -74,15 +75,20 @@ export default defineComponent({
     };
 
     const logout = () => {
+      console.log('route.name', route.name);
       ElMessageBox.confirm(`确定登出吗？`, {
         cancelButtonText: "取消",
         confirmButtonText: "确定"
       })
         .then(() => {
           UserStore.commitClearData();
+          if (route.name === 'Home') {
+            location.reload();
+            return;
+          }
           router.push({
-            name: 'Root'
-          })
+            name: "Root"
+          });
         })
         .catch(() => {
           console.log("嘿嘿");

@@ -14,6 +14,20 @@
         </div>
       </div>
       <div class="content" v-html="info.content"></div>
+      <div class="foot">
+        <h3>发表评论</h3>
+        <el-input
+          class="comment-input"
+          type="textarea"
+          placeholder="请输入评论内容"
+          :autosize="{ minRows: 2}"
+        >
+        </el-input>
+        <el-button type="primary" @click="comment">发表</el-button>
+      </div>
+      <div class="comment">
+
+      </div>
     </div>
   </div>
 </template>
@@ -61,13 +75,18 @@ export default defineComponent({
         });
     };
 
+    const comment = () => {
+
+    }
+
     onMounted(() => {
       loadData();
     });
 
     return {
       info,
-      loading
+      loading,
+      comment
     };
   }
 });
@@ -84,8 +103,18 @@ export default defineComponent({
     font-size: 24px;
   }
 }
-.content {
+.content,
+.foot {
   max-width: 1000px;
   margin: 0 auto;
+  &.foot {
+    text-align: center;
+    > h3 {
+      text-align: left;
+    }
+  }
+}
+.comment-input {
+  margin-bottom: 24px;
 }
 </style>
