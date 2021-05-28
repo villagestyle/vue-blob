@@ -21,6 +21,7 @@
           type="textarea"
           placeholder="请输入评论内容"
           :autosize="{ minRows: 2}"
+          v-model="commentContent"
         >
         </el-input>
         <el-button type="primary" @click="comment">发表</el-button>
@@ -36,8 +37,10 @@
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import marked from "../../utils/marked";
 import articleAPI from "../../api/article";
+import commentAPI from '../../api/comment';
 import { useRoute } from "vue-router";
 import Layout from "../layout/index.vue";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   components: {
@@ -54,13 +57,15 @@ export default defineComponent({
       likesNum: 0
     });
     const loading = ref(false);
+    const commentContent = ref('');
+    const id = ref('');
     const route = useRoute();
 
     const loadData = () => {
       loading.value = true;
-      const id = route.params.id as string;
+      id.value = route.params.id as string
       articleAPI
-        .info(id)
+        .info(id.value)
         .then(ret => {
           info.content = marked(ret.data.content);
           info.creTime = ret.data.creTime;
@@ -75,18 +80,37 @@ export default defineComponent({
         });
     };
 
-    const comment = () => {
+    const loadComment = () => {
+      commentAPI.list(id.value).then(ret => {
+        console.log(ret.data);
+      })
+    }
 
+    const comment = () => {
+      const content = commentContent.value;
+      if (!content) {
+        ElMessage.warning('请输入评论内容');
+        return;
+      }
+      loading.value = true;
+      commentAPI.add(id.value, content).then(() => {
+        ElMessage.success('评论成功');
+        commentContent.value = '';
+        loading.value = false;
+        // TODO: 加载评论
+      })
     }
 
     onMounted(() => {
       loadData();
+      loadComment();
     });
 
     return {
       info,
       loading,
-      comment
+      comment,
+      commentContent
     };
   }
 });
