@@ -21,7 +21,7 @@
     <div class="foot">
       <el-space wrap>
         <span> 查看 {{ data.readNum }} </span>
-        <!-- <span> 评论 {{ data.likesNum }} </span> -->
+        <span> 评论 {{ data.commentNum || 0 }} </span>
         <span> 赞 {{ data.likesNum }} </span>
         <span> {{ date }} </span>
       </el-space>

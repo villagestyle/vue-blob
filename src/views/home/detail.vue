@@ -4,17 +4,20 @@
     <div class="container-with-layout container" v-loading="loading">
       <div class="head">
         <h1>{{ info.title }}</h1>
-
         <div>
           <el-space wrap>
-            <span>作者：{{ info.author.username }}</span>
+            <span>作者：{{ info.author.name }}</span>
             <span>阅读：{{ info.readNum }}</span>
             <span>点赞：{{ info.likesNum }}</span>
           </el-space>
         </div>
       </div>
-      <div class="content" v-html="info.content"></div>
-      <div class="foot">
+      <div class="content markdown-body" v-html="info.content"></div>
+      <div class="comment-list" v-loading="commentLoading" v-if="info.action">
+        <h3>评论：</h3>
+        <CommentCom v-for="comment in commentList.data" :key="comment.id" :data="comment"></CommentCom>
+      </div>
+      <div class="foot" v-if="info.action">
         <h3>发表评论</h3>
         <el-input
           class="comment-input"
@@ -25,9 +28,6 @@
         >
         </el-input>
         <el-button type="primary" @click="comment">发表</el-button>
-      </div>
-      <div class="comment">
-
       </div>
     </div>
   </div>
@@ -41,10 +41,13 @@ import commentAPI from '../../api/comment';
 import { useRoute } from "vue-router";
 import Layout from "../layout/index.vue";
 import { ElMessage } from "element-plus";
+import { Comment } from '../../type/global';
+import CommentCom from './_component/comment.vue';
 
 export default defineComponent({
   components: {
-    Layout
+    Layout,
+    CommentCom
   },
 
   setup() {
@@ -54,12 +57,19 @@ export default defineComponent({
       title: "",
       author: {},
       readNum: 0,
-      likesNum: 0
+      likesNum: 0,
+      action: 0
     });
     const loading = ref(false);
+    const commentLoading = ref(false);
     const commentContent = ref('');
     const id = ref('');
     const route = useRoute();
+    const commentList = reactive<{
+      data: Comment[]
+    }>({
+      data: []
+    })
 
     const loadData = () => {
       loading.value = true;
@@ -73,6 +83,7 @@ export default defineComponent({
           info.author = ret.data.author;
           info.readNum = ret.data.readNum;
           info.likesNum = ret.data.likesNum;
+          info.action = ret.data.action;
           loading.value = false;
         })
         .catch(() => {
@@ -81,8 +92,12 @@ export default defineComponent({
     };
 
     const loadComment = () => {
+      commentLoading.value = true;
       commentAPI.list(id.value).then(ret => {
-        console.log(ret.data);
+        commentList.data = ret.data;
+        commentLoading.value = false;
+      }).catch(() => {
+        commentLoading.value = false;
       })
     }
 
@@ -97,7 +112,9 @@ export default defineComponent({
         ElMessage.success('评论成功');
         commentContent.value = '';
         loading.value = false;
-        // TODO: 加载评论
+        loadComment();
+      }).catch(() => {
+        loading.value = false;
       })
     }
 
@@ -109,8 +126,10 @@ export default defineComponent({
     return {
       info,
       loading,
+      commentLoading,
       comment,
-      commentContent
+      commentContent,
+      commentList
     };
   }
 });
@@ -128,7 +147,8 @@ export default defineComponent({
   }
 }
 .content,
-.foot {
+.foot,
+.comment-list {
   max-width: 1000px;
   margin: 0 auto;
   &.foot {
@@ -138,6 +158,11 @@ export default defineComponent({
     }
   }
 }
+
+.comment-list {
+  margin: 32px auto;
+}
+
 .comment-input {
   margin-bottom: 24px;
 }

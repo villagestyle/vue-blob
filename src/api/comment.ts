@@ -8,5 +8,17 @@ export default {
             content
         }
     }),
-    list: (id: string) => axios.get(`comment/all/${id}`)
+    list: (id: string) => axios.get(`comment/all/${id}`),
+    page: (data: CommentPageScreen) => axios({
+        method: 'post',
+        url: `comment/page`,
+        data
+    }),
+    remove: (id: string) => axios.delete(`comment/${id}`)
+}
+
+export interface CommentPageScreen {
+    rows: number;
+    pageNum: number;
+    articleId?: string;
 }

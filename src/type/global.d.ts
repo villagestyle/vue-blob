@@ -49,3 +49,12 @@ export declare interface Article {
   readNum: string;
   action: UpdateAction;
 }
+
+export declare interface Comment {
+  id: string;
+  user: UserInfo;
+  creUserId: string;
+  creTime: number | string;
+  content: string;
+  articleId: string;
+}

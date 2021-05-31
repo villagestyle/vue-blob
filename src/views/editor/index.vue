@@ -20,7 +20,6 @@
         <el-col :span="12">
           <textarea
             v-model="value"
-            @input="output"
             :style="{ height: boxHeight + 'px' }"
           ></textarea>
         </el-col>
@@ -39,30 +38,22 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, onUnmounted } from "vue";
 import marked from "../../utils/marked";
-import { useThrottle } from "../../hooks/useThrottle";
 import { ElMessage } from "element-plus";
 import articleAPI, { ArticleEdit } from "../../api/article";
 import { useRoute, useRouter } from "vue-router";
+import { useMarked } from '../../hooks/useMarked';
 
 export default defineComponent({
   setup() {
     const id = ref("");
     const value = ref("");
     const title = ref("");
-    const content = ref("");
+    const [content] = useMarked(value, { timeout: 1000, useThrottle: true });
     const router = useRouter();
     const route = useRoute();
     const innerHeight = ref(document.body.clientHeight);
     const boxHeight = computed(() => innerHeight.value - 42 - 72);
     const loadding = ref(false);
-
-    const [update, cancel] = useThrottle(() => {
-      content.value = marked(value.value);
-    }, 1000);
-
-    const output = () => {
-      update();
-    };
 
     const resizeHandle = () => {
       const h = document.body.clientHeight;
@@ -70,11 +61,11 @@ export default defineComponent({
     };
 
     const submit = (action: 0 | 1) => {
-      loadding.value = true;
       if (!title.value && action) {
         ElMessage.error("请输入文章标题");
         return;
       }
+      loadding.value = true;
       const req = id.value
         ? (data: ArticleEdit) => articleAPI.edit(id.value, data)
         : articleAPI.add;
@@ -125,7 +116,6 @@ export default defineComponent({
       title,
       content,
       boxHeight,
-      output,
       submit,
       loadding
     };
