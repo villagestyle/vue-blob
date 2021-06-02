@@ -40,9 +40,9 @@ import articleAPI from "../../api/article";
 import commentAPI from '../../api/comment';
 import { useRoute } from "vue-router";
 import Layout from "../layout/index.vue";
-import { ElMessage } from "element-plus";
 import { Comment } from '../../type/global';
-import CommentCom from './_component/comment.vue';
+import CommentCom from '../../components/comment.vue';
+import { SingleElMessage } from "../../utils";
 
 export default defineComponent({
   components: {
@@ -104,12 +104,12 @@ export default defineComponent({
     const comment = () => {
       const content = commentContent.value;
       if (!content) {
-        ElMessage.warning('请输入评论内容');
+        SingleElMessage('请输入评论内容', { type: 'warning' })
         return;
       }
       loading.value = true;
       commentAPI.add(id.value, content).then(() => {
-        ElMessage.success('评论成功');
+        SingleElMessage('评论成功', { type: 'success' });
         commentContent.value = '';
         loading.value = false;
         loadComment();

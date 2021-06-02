@@ -9,7 +9,7 @@
           <el-col :span="6" class="align-right" v-if="showoperation">
             <el-space wrap>
               <a @click.stop="edit" class="state color-info">编辑</a>
-              <a class="state color-info" @click="remove">删除</a>
+              <a class="state color-info" @click.stop="remove">删除</a>
             </el-space>
           </el-col>
         </el-row>
@@ -31,11 +31,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from "vue";
-import { ElCard, ElMessage } from "element-plus";
-import { Article } from "../../../type/global";
+import { ElCard } from "element-plus";
+import { Article } from "../type/global";
 import moment from "moment";
 import { useRouter } from "vue-router";
-import { UserStore } from "../../../store/modules/user";
+import { UserStore } from "../store/modules/user";
 
 export default defineComponent({
   components: {
@@ -70,9 +70,7 @@ export default defineComponent({
     };
 
     const remove = () => {
-      console.log(prop.data.id);
-      ElMessage.success("删除成功");
-      // emit('update');
+      emit('remove', prop.data.id);
     };
 
     const edit = () => {

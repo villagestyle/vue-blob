@@ -19,12 +19,14 @@
       <el-row>
         <el-col :span="12">
           <textarea
+            ref="textarea"
             v-model="value"
             :style="{ height: boxHeight + 'px' }"
           ></textarea>
         </el-col>
         <el-col :span="12"
           ><section
+            ref="markdownBody"
             class="markdown-body"
             v-html="content"
             :style="{ height: boxHeight + 'px' }"
@@ -36,12 +38,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, onUnmounted } from "vue";
+import { computed, defineComponent, onMounted, ref, onUnmounted, nextTick, reactive } from "vue";
 import marked from "../../utils/marked";
-import { ElMessage } from "element-plus";
 import articleAPI, { ArticleEdit } from "../../api/article";
 import { useRoute, useRouter } from "vue-router";
-import { useMarked } from '../../hooks/useMarked';
+import { useMarked } from "../../hooks/useMarked";
+import { SingleElMessage } from "../../utils";
+import { useBothScroll } from '../../hooks/useBothScroll';
+import { Fn } from "../../type/global";
 
 export default defineComponent({
   setup() {
@@ -54,6 +58,13 @@ export default defineComponent({
     const innerHeight = ref(document.body.clientHeight);
     const boxHeight = computed(() => innerHeight.value - 42 - 72);
     const loadding = ref(false);
+    const textarea = ref<HTMLTextAreaElement>();
+    const markdownBody = ref<HTMLElement>();
+    let scrollEventListenerCancel: Fn<void> = null;
+
+    nextTick(() => {
+      [scrollEventListenerCancel] = useBothScroll<HTMLTextAreaElement, HTMLElement>(textarea, markdownBody);
+    });
 
     const resizeHandle = () => {
       const h = document.body.clientHeight;
@@ -62,7 +73,7 @@ export default defineComponent({
 
     const submit = (action: 0 | 1) => {
       if (!title.value && action) {
-        ElMessage.error("请输入文章标题");
+        SingleElMessage("请输入文章标题");
         return;
       }
       loadding.value = true;
@@ -76,7 +87,7 @@ export default defineComponent({
       })
         .then(() => {
           loadding.value = false;
-          ElMessage.success("提交成功");
+          SingleElMessage("提交成功", { type: "success" });
           router.back();
         })
         .catch(() => {
@@ -109,6 +120,7 @@ export default defineComponent({
 
     onUnmounted(() => {
       window.removeEventListener("resize", resizeHandle);
+      scrollEventListenerCancel()
     });
 
     return {
@@ -117,7 +129,9 @@ export default defineComponent({
       content,
       boxHeight,
       submit,
-      loadding
+      loadding,
+      textarea,
+      markdownBody
     };
   }
 });

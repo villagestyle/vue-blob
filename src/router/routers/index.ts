@@ -49,5 +49,10 @@ export const routers: RouteRecordRaw[] = [
     path: '/draft',
     name: 'Draft',
     component: () => import("../../views/usercenter/articles.vue")
+  },
+  {
+    path: '/comment',
+    name: 'Comment',
+    component: () => import("../../views/usercenter/comments.vue")
   }
 ];

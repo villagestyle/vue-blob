@@ -12,7 +12,7 @@
 <script>
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import articleAPI from "../../api/article";
-import Article from "./_component/article.vue";
+import Article from "../../components/article.vue";
 import Layout from "../layout/index.vue";
 
 export default defineComponent({

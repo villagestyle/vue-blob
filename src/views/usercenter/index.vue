@@ -64,7 +64,7 @@
                 <span class="title"
                   >评论<span>（{{ data.commentNum }}）</span></span
                 >
-                <el-button class="button" type="text" @click="more(0)"
+                <el-button class="button" type="text" @click="more(2)"
                   >更多</el-button
                 >
               </div>
@@ -220,9 +220,9 @@ export default defineComponent({
         });
     };
 
-    const more = (type: 0 | 1) => {
+    const more = (type: 0 | 1 | 2) => {
       router.push({
-        name: type ? "Articel" : "Draft"
+        name: ["Draft", "Articel", 'Comment'][type]
       });
     };
 

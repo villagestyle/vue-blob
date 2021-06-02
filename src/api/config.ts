@@ -1,7 +1,7 @@
 import axios, { Method } from "axios";
 import { UserStore } from "../store/modules/user";
-import { ElMessage } from "element-plus";
 import router from '../router';
+import { SingleElMessage } from "../utils";
 
 const instance = axios.create({
   // baseURL: "http://www.villagestyle.top:9002/interface"
@@ -23,7 +23,7 @@ instance.interceptors.response.use(
   data => data,
   err => {
     if (err.response && err.response.status === 401) {
-      ElMessage.error("登录超时, 请重新登录");
+      SingleElMessage('登录超时, 请重新登录')
       UserStore.commitClearData();
       router.push({
         name: 'Root'
@@ -31,14 +31,13 @@ instance.interceptors.response.use(
     } else if (err.response && err.response?.data) {
       if (err.response?.data instanceof ArrayBuffer) {
         ab2str(err.response?.data, (result: string) => {
-          ElMessage.error(JSON.parse(result)?.message);
+          SingleElMessage(JSON.parse(result)?.message)
         });
       } else {
-        ElMessage.error(err.response.data.message || err.response.data.errmsg);
+        SingleElMessage(err.response.data.message || err.response.data.errmsg)
       }
     } else {
-      ElMessage.error("未知错误!");
-      //   store.dispatch(push(`/${Config.PACKAGE_NAME}/error`));
+      SingleElMessage('未知错误');
     }
     return Promise.reject(err.response);
   }

@@ -1,4 +1,6 @@
 import moment from "moment";
+import { ElMessage } from "element-plus";
+import { IMessageOptions, MessageParams } from "element-plus/lib/el-message/src/types";
 import { Indexable } from "../type/global";
 
 export const uuid = () => {
@@ -15,23 +17,38 @@ export const uuid = () => {
   return uuid;
 };
 
-// const TransformDateToFormatStr = (data: Indexable | Indexable[], key: string, format = 'YYYY-MM-DD') => {
-//   if (data instanceof Array) {
-
-//   } else {
-//     data[key] = moment(data[key]).format(format);
-//   }
-// }
-
 type BlendType<S, R> = S | R;
 
-export const TransformDateToFormatStr = <T extends Indexable, K extends keyof T>(
+export const TransformDateToFormatStr = <
+  T extends Indexable,
+  K extends keyof T
+>(
   data: BlendType<T, T[]>,
   key: K,
   format = "YYYY-MM-DD"
 ) => {
   const result = (data instanceof Array ? data : [data]).map(item => {
-    return Object.assign(item, { [key]: moment(item[key]).format(format) })
+    return Object.assign(item, { [key]: moment(item[key]).format(format) });
   });
   return result;
+};
+
+export const SingleElMessage = (params: MessageParams, options?: IMessageOptions) => {
+  const defaultParams: IMessageOptions = {
+    type: "error"
+  };
+  let messageParams = { ...defaultParams, ...options };
+  if (typeof params === 'string') {
+    messageParams = {
+      ...messageParams,
+      message: params
+    }
+  } else {
+    messageParams = {
+      ...messageParams,
+      ...params
+    };
+  }
+  ElMessage.closeAll();
+  ElMessage(messageParams);
 };
