@@ -29,5 +29,9 @@ export default defineConfig({
         additionalData: `@import "./src/assets/scss/common.scss";`
       }
     }
-  }
+  },
+  build: {  
+    outDir: 'blob'
+  },
+  base: '/blob/'
 });

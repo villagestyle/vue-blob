@@ -2,6 +2,7 @@
   <div class="comment">
     <el-row>
       <el-col :span="operation ? 21 : 24">
+        <p v-if="!operation">{{ data.user.name }}</p>
         <p class="flex-box">
           <span class="content">{{ data.content }}</span>
           <span class="date">{{ creTime }}</span>
@@ -70,6 +71,7 @@ export default defineComponent({
     font-size: 14px;
     color: $color-disabled;
     text-align: right;
+    flex-shrink: 0;
   }
   .flex-box {
     justify-content: space-between;

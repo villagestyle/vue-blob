@@ -5,7 +5,7 @@ import type { App } from "vue";
 import { createGuard } from "./guard";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/blob/'),
   routes: routers,
   strict: true,
   // 管理组件滚动行为

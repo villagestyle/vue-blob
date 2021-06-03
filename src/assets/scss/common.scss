@@ -96,9 +96,20 @@ footer {
 }
 
 ::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  color: transparent;
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c9cdd4;
+  outline: none;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 2px;
 }
 
 .clear-border {

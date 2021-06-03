@@ -23,7 +23,7 @@
                   <el-space wrap>
                     <a @click="detail(item.id)">详情</a>
                     <a @click="edit(item)">编辑</a>
-                    <a @click="remove(itemm)">删除</a>
+                    <a @click="remove(item)">删除</a>
                   </el-space>
                 </el-col>
               </el-row>
@@ -71,7 +71,7 @@
             </template>
             <div class="text item">
               <el-row :gutter="20" v-for="item in data.comment" :key="item.id">
-                <el-col :span="12">{{ item.content }}</el-col>
+                <el-col :span="12"><span class="content">{{ item.content }}</span></el-col>
                 <el-col :span="6">{{ item.creTime }}</el-col>
                 <el-col class="color-info state" :span="6">
                   <el-space wrap>
@@ -191,7 +191,7 @@ export default defineComponent({
       });
     };
 
-    const remove = (item: Article, type: 0 | 1 = 0) => {
+    const remove = (item: Article | Comment, type: 0 | 1 = 0) => {
       ElMessageBox.confirm("确定删除？", {
         cancelButtonText: "取消",
         confirmButtonText: "确定",
@@ -279,5 +279,13 @@ export default defineComponent({
 
 .box-card {
   margin-bottom: 16px;
+}
+
+.content {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  width: 100%;
 }
 </style>
