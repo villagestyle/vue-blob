@@ -31,7 +31,7 @@ export default defineConfig({
     }
   },
   build: {  
-    outDir: 'blob'
+    outDir: 'blob',
   },
   base: '/blob/'
 });

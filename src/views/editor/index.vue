@@ -34,6 +34,7 @@
         ></el-col>
       </el-row>
     </div>
+    <DrawBoard></DrawBoard>
   </div>
 </template>
 
@@ -44,8 +45,7 @@ import {
   onMounted,
   ref,
   onUnmounted,
-  nextTick,
-  reactive
+  nextTick
 } from "vue";
 import marked from "../../utils/marked";
 import articleAPI, { ArticleEdit } from "../../api/article";
@@ -161,7 +161,7 @@ header {
     box-sizing: border-box;
     line-height: 22px;
     font-size: 14px;
-    font-family: "element-icons";
+    font-family: "-webkit-pictograph";
   }
   section {
     padding: 8px;

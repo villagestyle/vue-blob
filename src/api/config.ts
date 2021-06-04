@@ -4,8 +4,8 @@ import router from '../router';
 import { SingleElMessage } from "../utils";
 
 const instance = axios.create({
-  // baseURL: "http://www.villagestyle.top:9002/interface"
-  baseURL: "http://localhost:9002/interface"
+  baseURL: "http://www.villagestyle.top:9002/interface"
+  // baseURL: "http://localhost:9002/interface"
 });
 
 instance.interceptors.request.use(
