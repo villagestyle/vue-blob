@@ -3,9 +3,10 @@ import { UserStore } from "../store/modules/user";
 import router from '../router';
 import { SingleElMessage } from "../utils";
 
+const baseURL = import.meta.env.VITE_APP_BASE_API;
+
 const instance = axios.create({
-  // baseURL: "http://www.villagestyle.top:9002/interface"
-  baseURL: "http://localhost:9002/interface"
+  baseURL
 });
 
 instance.interceptors.request.use(
