@@ -26,12 +26,12 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "./src/assets/scss/common.scss";`
+        additionalData: `@use "./src/assets/scss/common.scss" as *;`
       }
     }
   },
   build: {  
-    outDir: 'blob',
+    outDir: 'blob'
   },
   base: '/blob/'
 });
