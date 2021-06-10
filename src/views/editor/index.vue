@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent, onMounted, ref, onUnmounted, nextTick } from 'vue';
+  import { computed, defineComponent, onMounted, ref, onUnmounted, nextTick, Ref } from 'vue';
   import marked from '../../utils/marked';
   import articleAPI, { ArticleEdit } from '../../api/article';
   import { useRoute, useRouter } from 'vue-router';
@@ -53,12 +53,12 @@
       const loadding = ref(false);
       const textarea = ref<HTMLTextAreaElement>();
       const markdownBody = ref<HTMLElement>();
-      let scrollEventListenerCancel: Fn<void> = null;
+      let scrollEventListenerCancel: Fn<void> = () => null;
 
       nextTick(() => {
         [scrollEventListenerCancel] = useBothScroll<HTMLTextAreaElement, HTMLElement>(
-          textarea,
-          markdownBody
+          textarea as Ref<HTMLTextAreaElement>,
+          markdownBody as Ref<HTMLElement>
         );
       });
 

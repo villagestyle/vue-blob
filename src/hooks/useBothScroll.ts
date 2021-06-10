@@ -1,4 +1,4 @@
-import { nextTick, Ref, ref } from 'vue';
+import { Ref, ref } from 'vue';
 import { useScroll } from './useScroll';
 
 export type ScrollStatus = 0 | 1 | 2;
