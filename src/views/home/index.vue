@@ -3,26 +3,29 @@
     <Layout active="Root"></Layout>
     <div v-infinite-scroll="loadData" class="container-with-layout">
       <div v-for="item in data.record" :key="item.id">
-        <Article :data="item"></Article>
+        <ArticleCom :data="item"></ArticleCom>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import articleAPI from "../../api/article";
-import Article from "../../components/article.vue";
+import ArticleCom from "../../components/article.vue";
 import Layout from "../layout/index.vue";
+import { Article } from '../../type/global'; 
 
 export default defineComponent({
   components: {
-    Article,
+    ArticleCom,
     Layout
   },
   setup() {
     const pageNum = ref(1);
-    const data = reactive({
+    const data = reactive<{
+      record: Article[]
+    }>({
       record: []
     });
 

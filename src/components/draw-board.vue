@@ -21,7 +21,7 @@ export default defineComponent({
     const beginPosition = ref<Position>({ x: 0, y: 0 });
 
     const checkPosition = (
-      ev: MouseEvent,
+      ev: MouseEvent | undefined,
       offset?: Position
     ) => {
       offset = offset || { x: 0, y: 0 };
@@ -32,12 +32,13 @@ export default defineComponent({
     const [draw] = useThrottle(
       (ev: MouseEvent, action: "move" | "draw") => {
         ev.preventDefault();
+        if (!canvas.value) return;
         const offset = {
           x: canvas.value.offsetLeft,
           y: canvas.value.offsetTop
         };
         const { x, y } = checkPosition(ev, offset);
-        const ctx = canvas.value.getContext("2d");
+        const ctx = canvas.value.getContext("2d") as CanvasRenderingContext2D;
 
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -74,12 +75,13 @@ export default defineComponent({
     };
 
     const initCanvasDraw = () => {
+      if (!canvas.value) return;
       canvas.value.width = 500;
       canvas.value.height = 500;
       canvas.value.addEventListener("mousedown", mousedown);
       canvas.value.addEventListener("mouseup", mouseup);
       canvas.value.addEventListener("mousemove", mousemove);
-      const ctx = canvas.value.getContext("2d");
+      const ctx = canvas.value.getContext("2d")  as CanvasRenderingContext2D;
       ctx.shadowBlur = 1;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';

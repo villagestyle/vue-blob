@@ -47,6 +47,7 @@ export declare interface Article {
   id: string;
   likesNum: number;
   readNum: string;
+  commentNum: number;
   action: UpdateAction;
 }
 

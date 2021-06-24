@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from "vue";
+import { defineComponent, ref } from "vue";
 import Nav from "./_component/nav.vue";
 import LoginDialog from "./_component/login.vue";
 import RegisterDialog from "./_component/register.vue";
@@ -70,12 +70,10 @@ export default defineComponent({
     const route = useRoute();
 
     const login = () => {
-      console.log("loginDialog", loginDialog.value);
-      loginDialog.value.show();
+      loginDialog.value && loginDialog.value.show();
     };
 
     const logout = () => {
-      console.log('route.name', route.name);
       ElMessageBox.confirm(`确定登出吗？`, {
         cancelButtonText: "取消",
         confirmButtonText: "确定"
@@ -96,7 +94,7 @@ export default defineComponent({
     };
 
     const regiester = () => {
-      registerDialog.value.show();
+      registerDialog.value && registerDialog.value.show();
     };
 
     return {

@@ -131,7 +131,7 @@ export default defineComponent({
         if (valid) {
           userAPI
             .register({ ...form, token: validateToken.value })
-            .then(ret => {
+            .then(() => {
               ElMessage.success('用户注册成功');
               loading.value = false;
               cancel();

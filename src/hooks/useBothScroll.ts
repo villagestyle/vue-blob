@@ -6,7 +6,7 @@ export type ScrollStatus = 0 | 1 | 2;
 export const useBothScroll = <E extends Element, B extends Element>(elRef: Ref<E>, elRef2: Ref<B>) => {
 
     const precent = ref(0);
-    const timer = ref(0);
+    const timer = ref<number>();
     const scrollStatus = ref<ScrollStatus>(2);
 
     const [cancel1, element1] = useScroll<E>(elRef, () => {
@@ -28,7 +28,7 @@ export const useBothScroll = <E extends Element, B extends Element>(elRef: Ref<E
     const update = (element: E | B | HTMLElement) => {
         element.scrollTop = precent.value * element.scrollHeight;
         clearTimeout(timer.value);
-        timer.value = setTimeout(() => {
+        timer.value = window.setTimeout(() => {
             scrollStatus.value = 2;
         }, 100);
     }

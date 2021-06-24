@@ -1,5 +1,6 @@
 import { useTimeoutRef } from "./useTimeoutRef";
 import { watch } from 'vue';
+import { Fn } from '../type/global';
 
 export function useTimeoutFn(handle: Fn<any>, wait: number, native = false) {
     if (!(handle instanceof Function)) {

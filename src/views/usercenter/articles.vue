@@ -51,7 +51,7 @@ export default defineComponent({
 
     const remove = (id: string) => {
       loading.value = true;
-      articleAPI.remove(id).then(ret => {
+      articleAPI.remove(id).then(() => {
         loading.value = false;
         pageNum.value = 1;
         data.record = [];

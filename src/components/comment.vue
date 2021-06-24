@@ -2,7 +2,7 @@
   <div class="comment">
     <el-row>
       <el-col :span="operation ? 21 : 24">
-        <p v-if="!operation">{{ data.user.name }}</p>
+        <p v-if="!operation">{{ data?.user.name }}</p>
         <p class="flex-box">
           <span class="content">{{ data.content }}</span>
           <span class="date">{{ creTime }}</span>
@@ -29,7 +29,8 @@ import { Comment } from "../type/global";
 export default defineComponent({
   props: {
     data: {
-      type: Object as PropType<Comment>
+      type: Object as PropType<Comment>,
+        required: true
     },
     operation: {
       type: Boolean,

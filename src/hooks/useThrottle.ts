@@ -13,6 +13,8 @@ export type DebounceAndThrottleProcerduceResult<T extends unknown[]> = [
     CancelFn
 ]
 
+import { Nullable, TimeoutHandle } from '../type/global';
+
 export function useThrottle<T extends unknown[]> (
     handle: DebounceAndThrottleProcedure<T>,
     wait: number,

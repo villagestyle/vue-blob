@@ -43,7 +43,8 @@ export default defineComponent({
   },
   props: {
     data: {
-      type: Object as PropType<Article>
+      type: Object as PropType<Article>,
+      required: true
     },
     operation: {
       type: Boolean,

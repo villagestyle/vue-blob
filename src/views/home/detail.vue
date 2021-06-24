@@ -51,12 +51,12 @@ export default defineComponent({
   },
 
   setup() {
-    const info = reactive({
+    const info = reactive<any>({
       content: "",
       creTime: 0,
       title: "",
       author: {},
-      readNum: 0,
+      readNum: '0',
       likesNum: 0,
       action: 0
     });
