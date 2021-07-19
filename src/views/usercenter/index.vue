@@ -98,13 +98,11 @@ import { TransformDateToFormatStr } from "../../utils";
 import { useRouter } from "vue-router";
 import { UserStore } from "../../store/modules/user";
 import Layout from "../layout/index.vue";
-import DrawBoard from "../../components/draw-board.vue";
 
 export default defineComponent({
   components: {
     [ElCard.name]: ElCard,
-    Layout,
-    DrawBoard
+    Layout
   },
   setup() {
     const router = useRouter();
